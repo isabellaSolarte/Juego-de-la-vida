@@ -1,3 +1,3 @@
-# Juego-de-la-vida
-Isabella Solarte Sandoval
-Daniela Riascos Urrego
+## Juego-de-la-vida
+# Isabella Solarte Sandoval
+# Daniela Riascos Urrego
