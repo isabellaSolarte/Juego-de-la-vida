@@ -12,7 +12,7 @@ TABLERO_FILAS = ALTO // CELULA_TAMANO
 
 # Colores en RGB para la presentación
 BLANCO = (255, 255, 255)
-NEGRO = (128, 0, 128)
+NEGRO = (0, 0, 0)
 
 # Inicializar Pygame
 pygame.init()
