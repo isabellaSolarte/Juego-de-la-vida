@@ -25,6 +25,7 @@ class Celula:
         self.posY = y
         self.estado = random.choice([0, 1])  # 0 para muerta, 1 para viva se le da un valor inicial a la célula cuando se crea
         self.vecinos = []
+        self.siguienteEstado = 0
 
     def dibujar(self):
         color = BLANCO if self.estado == 1 else NEGRO
@@ -33,14 +34,18 @@ class Celula:
     def contar_vecinos_vivos(self):
         return sum(vecino.estado for vecino in self.vecinos) #cantidad de vecinos vivos que tiene la célula
 
-    def actualizar_estado(self):
+    def evaluar_estado(self):
         vecinos_vivos = self.contar_vecinos_vivos()
-        if self.estado == 1:
-            if vecinos_vivos < 2 or vecinos_vivos > 3:
-                self.estado = 0
-        else:
-            if vecinos_vivos == 3: #revive
-                self.estado = 1
+        self.siguienteEstado = self.estado
+
+        if vecinos_vivos < 2 or vecinos_vivos > 3:
+            self.siguienteEstado = 0
+
+        if vecinos_vivos == 3: #revive
+            self.siguienteEstado = 1
+    def actualizar_estado(self):
+        self.estado = self.siguienteEstado
+
 
 class Tablero:
     def __init__(self):
@@ -66,9 +71,14 @@ class Tablero:
         for celula in self.celulas:
             celula.dibujar()
 
+    def evaluar_estado(self):
+        for celula in self.celulas:
+            celula.evaluar_estado()
+
     def actualizar_estado(self):
         for celula in self.celulas:
             celula.actualizar_estado()
+
 
 class Juego:
     def __init__(self):
@@ -86,7 +96,9 @@ class Juego:
 
             self.tablero.dibujar()
             #aplicación de la mutación
+            self.tablero.evaluar_estado()
             self.tablero.actualizar_estado()
+
 
             pygame.display.flip()
             reloj.tick(20)  # Velocidad de actualización
